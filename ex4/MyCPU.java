@@ -76,7 +76,7 @@ public class MyCPU<pubic> {
      */
     public static void rr(P[] ps){
         int time = 0;
-        int timeP = 10;
+        int timeP = 15;
         ArrayList<P> list = new ArrayList(Arrays.asList(ps));
         while(!list.isEmpty()){
             for(int i = 0; i < list.size() ; i++){
