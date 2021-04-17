@@ -1,3 +1,9 @@
+package single;
+
+import common.MyProcess;
+
+import scheduler.*;
+
 import java.util.*;
 
 /**
@@ -41,98 +47,3 @@ public class SingleCoreCPU{
     }
 }
 
-class MyProcess{
-    private static int idcounters = 0;
-    private int id;
-    private int runtime;
-
-    MyProcess(int runtime){
-        if(runtime < 1){
-            throw new IllegalArgumentException("runtime < 0 !");
-        }
-        this.id = idcounters++;
-        this. runtime = runtime;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getRuntime() {
-        return runtime;
-    }
-
-    @Override
-    public String toString(){
-        return "Pid" + getId();
-    }
-
-    /**
-     * @MethodName execute
-     * @Description TODO 进程执行
-     * @Param []
-     * @Return void
-     * @author Ayase
-     * @date 13:44
-     */
-    public void execute(){
-        this.runtime--;
-    }
-}
-
-abstract class Scheduler{
-    MyProcess nowProcess;
-
-    Queue<MyProcess> pList;
-
-    public Scheduler(){
-        pList = new LinkedList<>();
-    }
-
-    public String execute(){
-        if(nowProcess == null){
-            schedule();
-        }
-        StringBuilder result = new StringBuilder();
-        if(nowProcess == null){
-            return "execute: 空闲";
-        }
-        else{
-            result.append("execute: " + nowProcess.getId());
-        }
-        if(nowProcess.getRuntime()>0){
-            nowProcess.execute();
-            if(nowProcess.getRuntime() == 0){
-                result.append("  process out");
-                nowProcess = null;
-            }
-        }
-        return result.toString();
-    };
-
-    public void addP(MyProcess p){
-        pList.add(p);
-    }
-
-    abstract void schedule();
-
-    public boolean isEnd() {
-        if(pList.isEmpty() && nowProcess == null) {
-            return true;
-        }
-        return false;
-    }
-}
-
-
-
-class FifoSched extends Scheduler{
-    /**
-     * 调度
-     * @return
-     */
-    @Override
-    public void schedule() {
-        nowProcess = pList.poll();
-    }
-}
