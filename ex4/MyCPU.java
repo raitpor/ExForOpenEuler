@@ -1,113 +1,47 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.TreeSet;
-
-public class MyCPU<pubic> {
-    private static class P{
-        int time;
-        char pName;
-        P(int time,char name){
-            this.time = time;
-            this.pName = name;
-        }
-
-        @Override
-        public String toString(){
-            return "Time:" + time + "  Process:" + pName;
-        }
-    }
-
+/**
+ * @author Ayase
+ * @date 2021/4/16-15:49
+ */
+public class MyCPU{
     /**
-     * @MethodName fifo
-     * @Description TODO 先进先出算法
-     * @Param [ps]
-     * @Return void
-     * @author Ayase
-     * @date 19:55
+     * init your processes
+     * first number is arrivetime
+     * second number is runtime
      */
-    public static void fifo(P[] ps){
-        int time = 0;
-        int waitSum = 0;
-        System.out.println("fifo:");
-        for(int i = 0 ; i < ps.length ; i++){
-            waitSum += time;
-            System.out.println("Time:" + time + "  process:" + ps[i].pName);
-            time += ps[i].time;
+    private static int[][] processInput;
+    private static HashMap<Integer,MyProcess> pMap;
+
+    public static void main(String[] args) {
+        for(int i = 0 ; i < processInput.length ;i++){
+            pMap.put(processInput[i][0],new MyProcess(processInput[i][1]));
         }
-        System.out.println("Time:" + time + "   End");
-        System.out.println("WaitSum = " + waitSum);
-    }
-
-    /**
-     * @MethodName sjf
-     * @Description TODO 短进程优先算法
-     * @Param [ps]
-     * @Return void
-     * @author Ayase
-     * @date 19:55
-     */
-    public static void sjf(P[] ps){
-        int time = 0;
-        int waitSum = 0;
-        System.out.println("sjf:");
-        ArrayList<P> list = new ArrayList(Arrays.asList(ps));
-        list.sort(new Comparator<P>() {
-            @Override
-            public int compare(P p, P t1) {
-                if(p.time>t1.time){
-                    return 1;
-                }
-                else{
-                    return -1;
-                }
-            }
-        });
-        fifo(list.toArray(new P[list.size()]));
-    }
-
-    /**
-     * @MethodName rr
-     * @Description TODO 轮转调度
-     * @Param [ps]
-     * @Return void
-     * @author Ayase
-     * @date 19:56
-     */
-    public static void rr(P[] ps){
-        int time = 0;
-        int timeP = 10;
-        ArrayList<P> list = new ArrayList(Arrays.asList(ps));
-        while(!list.isEmpty()){
-            for(int i = 0; i < list.size() ; i++){
-                System.out.println("Time:" + time + ". Process:" + list.get(i).pName);
-                if(timeP < list.get(i).time){
-                    list.get(i).time -= timeP;
-                    time += timeP;
-                }
-                else{
-                    time += list.get(i).time;
-                    list.remove(i);
-                    i--;
-                }
-            }
+        int timeCount = 0;
+        while(!pMap.isEmpty()){
+            
         }
-        System.out.println("Time:" + time + "  End");
     }
+}
 
+interface Scheduled{
+    ArrayList<MyProcess> pList = new ArrayList<>();
+    MyProcess nowProcess = null;
 
-    public static void main(String[] args){
-        P[] ps = {
-            new P(1,'a'),
-            new P(20,'b'),
-            new P(3,'c'),
-            new P(96,'d'),
-            new P(2,'e')
-        };
-        fifo(ps);
-        System.out.println();
-        sjf(ps);
-        System.out.println();
-        rr(ps);
+    void addP(MyProcess p);
+
+    MyProcess getNowProcess();
+}
+
+class MyProcess{
+    private static int idcounters = 0;
+    private int id;
+    private int runtime;
+
+    MyProcess(int runtime){
+        this.id = idcounters++;
+        this. runtime = runtime;
     }
+}
+
+class FifoSched implements Scheduled{
+
 }
