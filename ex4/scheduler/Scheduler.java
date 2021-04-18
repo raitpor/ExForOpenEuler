@@ -2,6 +2,7 @@ package scheduler;
 
 import common.MyProcess;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -12,23 +13,24 @@ import java.util.Queue;
 public abstract class Scheduler{
     MyProcess nowProcess;
 
-    Queue<MyProcess> pList;
+    ArrayList<MyProcess> pList;
 
     public Scheduler(){
-        pList = new LinkedList<>();
+        pList = new ArrayList<>();
     }
 
     public String execute(){
-        if(nowProcess == null){
-            schedule();
-        }
+        //调度进程
+        schedule();
         StringBuilder result = new StringBuilder();
+        //若调度后无进程执行则CPU空闲
         if(nowProcess == null){
             return "execute: 空闲";
         }
         else{
             result.append("execute: " + nowProcess.getId());
         }
+        //CPU内有进程则执行一个时间单位，若执行完则销毁进程
         if(nowProcess.getRuntime()>0){
             nowProcess.execute();
             if(nowProcess.getRuntime() == 0){

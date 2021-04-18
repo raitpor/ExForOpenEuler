@@ -16,7 +16,7 @@ public class SingleCoreCPU{
      * first number is arrivetime
      * second number is runtime
      */
-    private static int[][] processInput = {{1,2},{6,8},{8,2}};
+    private static int[][] processInput = {{1,10},{6,8},{8,2},{9,7},{15,16}};
     private static HashMap<Integer,MyProcess> pMap = new HashMap<>();
     private static Scheduler scheduler;
 
@@ -25,6 +25,8 @@ public class SingleCoreCPU{
         System.out.println("Please input the schedule:");
         switch(new Scanner(System.in).next()) {
             case "fifo":scheduler = new FifoSched();break;
+            case "sjf":scheduler = new SjfSched();break;
+            case "rr":scheduler = new RRSched();break;
             default:throw new IllegalArgumentException("输入错误");
         }
         //初始化进程
