@@ -5,10 +5,15 @@ package scheduler;
  * @date 2021/4/17-16:51
  */
 public class RRSched extends Scheduler{
+    /**
+     * TIME_SLICE时间片，一个进程可以运行的时长
+     * count计时器，由于第一次进行调度时会先加一，因此初始化为-1
+     */
     private final static int TIME_SLICE = 5;
     private static int count = -1;
     @Override
     void schedule() {
+        //计时器加一
         count++;
 
         if(nowProcess != null){
