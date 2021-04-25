@@ -1,8 +1,6 @@
 package test;
 
 import entity.Disk;
-import entity.Inode;
-import fileSystem.MyFileSystem;
 
 /**
  * @author Ayase
@@ -10,10 +8,8 @@ import fileSystem.MyFileSystem;
  */
 public class Test {
     public static void main(String[] args) {
-
         Disk disk = new Disk();
 
-        Inode inode = disk.getFileSystem().readInode(0);
-        System.out.println();
+        disk.getFileSystem().bash();
     }
 }

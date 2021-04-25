@@ -18,7 +18,7 @@ public class Block {
      *  5、inode第3位到第BLOCK_SIZE-1位是数据块地址
      *
      * 二、文件
-     *  1、第一个数据块的前8位为文件名
+     *  1、第一个数据块的前NAME_LENGTH位为文件名
      *  2、后面为数据
      ******************************************************************************************************************/
     public static final int BLOCK_SIZE = 32;
@@ -50,6 +50,11 @@ public class Block {
      * @date 15:26
      */
     public char[] read() {
-        return block;
+        //深拷贝防止通过read()修改block数据
+        char[] temp = new char[block.length];
+        for(int i = 0 ; i < block.length ; i++){
+            temp[i] = block[i];
+        }
+        return temp;
     }
 }

@@ -1,11 +1,9 @@
 package fileSystem;
 
-import entity.Block;
-import entity.Disk;
-import entity.Inode;
-import entity.User;
+import entity.*;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * @author Ayase
@@ -14,63 +12,44 @@ import java.util.ArrayList;
 public abstract class AbstractFileSystem {
     /*******************************************************************************************************************
      * NUM_INODE  inode数量，前NUM_INODE个块保留为inode
-     * APPEND 续写
-     * OVERWRITE 覆盖写入
+     * NAME_LENGTH 文件名长度，一般不超过一个块长度：32
      ******************************************************************************************************************/
-    public static final int NUM_INODE = 32;
-    public static final int MODE_APPEND = 0;
-    public static final int MODE_OVERWRITE = 1;
+    public static final int NUM_INODE = 256;
+    public static final int NAME_LENGTH = 16;
 
     /*******************************************************************************************************************
      * nowUser      当前登录的用户
      * nowDir       当前工作目录
      * bitmap       数据位图，用于管理空闲块（简化，实际应存在块中）
      * blocks       块表
+     * scanner      读取指令
+     * code         输入的指令，可以用split方法分割
      ******************************************************************************************************************/
     User nowUser;
     Inode nowDir;
     int[] bitmap;
     ArrayList<Block> blocks;
-
-    public AbstractFileSystem(ArrayList<Block> blocks) {
-        //导入磁盘块表
-        this.blocks = blocks;
-        //数据位图位数与磁盘块数一致
-        bitmap = new int[Disk.NUM_BLOCK];
-        //初始化第一个块，即根目录inode，数据位图标记块已使用
-        bitmap[0] = 1;
-        bitmap[NUM_INODE] = 1;
-        //全0字符数组
-        char[] data = new char[32];
-
-        data[1] = 1;
-        //第3位开始记录数据块地址，BLOCK_SIZE为第一个数据块
-        data[3] = Block.BLOCK_SIZE * 10;
-        //写入到块中
-        blocks.get(0).write(data);
-    }
+    Scanner scanner;
+    String[] code;
 
     /********************************************************************
      * bash()      命令方法，实现指令系统
      * ls()        列出文件
      * read()      读取文件
-     * write()     写入文件
-     * pwd()       显示当前工作目录
+     * write()     写入文件,只提供覆盖写入
      * login()     登录方法
      * cd()        打开目录
      * mkdir()     创建目录
      * newFile()   新建文件
      * rm()        删除文件
      *********************************************************************/
-    abstract void bash();
+    public abstract void bash();
 
     abstract void ls();
 
     abstract void read();
 
-    abstract void write(String str, int flag);
-
-    abstract void pwd();
+    abstract void write();
 
     abstract void login();
 
@@ -89,8 +68,4 @@ public abstract class AbstractFileSystem {
     public Inode getNowDir() {
         return nowDir;
     }
-
-    abstract public Inode readInode(int n);
-
-    abstract public String readFile(Inode inode);
 }
