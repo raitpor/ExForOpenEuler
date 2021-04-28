@@ -586,49 +586,4 @@ public class MyFileSystem extends AbstractFileSystem{
         }
     }
 
-    private Inode block2inode(int n) {
-        if(n > NUM_INODE){
-            throw new IllegalArgumentException("超过inode存储地址："+ NUM_INODE);
-        }
-        return new Inode(blocks.get(n),n);
-    }
-
-    private MyFile inode2file(Inode inode) {
-        ArrayList<Character> data = new ArrayList<>();
-        ArrayList<Character> name = new ArrayList<>();
-
-        for(int n = 0 ; n < inode.getiBlock().size(); n++){
-            int blockAddr = inode.getiBlock().get(n);
-            char[] bData = blocks.get(blockAddr).read();
-            //读取文件名
-            if(n == 0){
-                for(int i = 0 ; i < NAME_LENGTH; i++){
-                    if(bData[i]!=0){
-                        name.add(Character.valueOf(bData[i]));
-                    }
-                }
-                //读取数据
-                for(int i = NAME_LENGTH ; i < bData.length ; i++){
-                    data.add(Character.valueOf(bData[i]));
-                }
-            }else {
-                //读取数据
-                for (int i = 0 ; i < bData.length ; i++){
-                    data.add(Character.valueOf(bData[i]));
-                }
-            }
-        }
-        char[] result = new char[data.size()];
-        for(int i = 0 ; i < data.size() ; i++){
-            result[i] = data.get(i);
-        }
-
-        char[] nameresult = new char[name.size()];
-        for(int i = 0 ; i < name.size() ; i++){
-            nameresult[i] = name.get(i);
-        }
-
-        return new MyFile(inode.getMode(),new String(nameresult),result);
-    }
-
 }

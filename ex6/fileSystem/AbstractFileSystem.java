@@ -68,4 +68,65 @@ public abstract class AbstractFileSystem {
     public Inode getNowDir() {
         return nowDir;
     }
+
+    /***********************************************************
+     * @MethodName block2inode
+     * @Description TODO 将磁盘块转成inode，若超过存储inode的存储位置则报错
+     * @Param [n]
+     * @Return entity.Inode
+     * @author Ayase
+     * @date 10:35
+     *********************************************************/
+    Inode block2inode(int n) {
+        if(n > NUM_INODE){
+            throw new IllegalArgumentException("超过inode存储地址："+ NUM_INODE);
+        }
+        return new Inode(blocks.get(n),n);
+    }
+
+    /***********************************************************
+     * @MethodName inode2file
+     * @Description TODO inode转成MyFile对象
+     * @Param [inode]
+     * @Return entity.MyFile
+     * @author Ayase
+     * @date 10:36
+     *********************************************************/
+    MyFile inode2file(Inode inode) {
+        ArrayList<Character> data = new ArrayList<>();
+        ArrayList<Character> name = new ArrayList<>();
+
+        for(int n = 0 ; n < inode.getiBlock().size(); n++){
+            int blockAddr = inode.getiBlock().get(n);
+            char[] bData = blocks.get(blockAddr).read();
+            //读取文件名
+            if(n == 0){
+                for(int i = 0 ; i < NAME_LENGTH; i++){
+                    if(bData[i]!=0){
+                        name.add(Character.valueOf(bData[i]));
+                    }
+                }
+                //读取数据
+                for(int i = NAME_LENGTH ; i < bData.length ; i++){
+                    data.add(Character.valueOf(bData[i]));
+                }
+            }else {
+                //读取数据
+                for (int i = 0 ; i < bData.length ; i++){
+                    data.add(Character.valueOf(bData[i]));
+                }
+            }
+        }
+        char[] result = new char[data.size()];
+        for(int i = 0 ; i < data.size() ; i++){
+            result[i] = data.get(i);
+        }
+
+        char[] nameresult = new char[name.size()];
+        for(int i = 0 ; i < name.size() ; i++){
+            nameresult[i] = name.get(i);
+        }
+
+        return new MyFile(inode.getMode(),new String(nameresult),result);
+    }
 }
