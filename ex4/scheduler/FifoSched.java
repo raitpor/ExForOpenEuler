@@ -4,7 +4,7 @@ package scheduler;
  * @author Ayase
  * @date 2021/4/17-15:04
  */
-public class FifoSched extends Scheduler{
+public class FifoSched extends SingleScheduler {
     /**
      * @MethodName schedule
      * @Description TODO 用FIFO算法调度进程

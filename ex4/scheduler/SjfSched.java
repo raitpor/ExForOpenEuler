@@ -4,7 +4,7 @@ package scheduler;
  * @author Ayase
  * @date 2021/4/17-16:22
  */
-public class SjfSched extends Scheduler{
+public class SjfSched extends SingleScheduler {
     /**
      * @MethodName schedule
      * @Description TODO 用sjf算法进行调度

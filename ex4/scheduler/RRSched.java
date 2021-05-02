@@ -4,7 +4,7 @@ package scheduler;
  * @author Ayase
  * @date 2021/4/17-16:51
  */
-public class RRSched extends Scheduler{
+public class RRSched extends SingleScheduler {
     /**
      * TIME_SLICE时间片，一个进程可以运行的时长
      * count计时器，由于第一次进行调度时会先加一，因此初始化为-1

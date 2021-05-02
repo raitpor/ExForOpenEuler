@@ -8,18 +8,18 @@ import java.util.ArrayList;
  * @author Ayase
  * @date 2021/4/17-15:03
  */
-public abstract class Scheduler{
-    /**
+public abstract class SingleScheduler {
+    /***************
      * 当前执行的线程
-     */
+     **************/
     MyProcess nowProcess;
 
-    /**
+    /************
      * 进程表
-     */
+     ***********/
     ArrayList<MyProcess> pList;
 
-    public Scheduler(){
+    public SingleScheduler(){
         pList = new ArrayList<>();
     }
 
