@@ -70,4 +70,30 @@ public class MyProcess{
     public void execute(){
         this.runtime--;
     }
+
+    /***********************************************************
+     * @MethodName equals
+     * @Description TODO 比较两个进程是否相同
+     * @Param [obj]
+     * @Return boolean
+     * @author Ayase
+     * @date 10:16
+     *********************************************************/
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj){
+            return true;
+        }
+
+        if(obj == null){
+            return false;
+        }
+
+        if(obj instanceof MyProcess){
+            if(this.getId() == ((MyProcess) obj).getId()){
+                return true;
+            }
+        }
+        return false;
+    }
 }
