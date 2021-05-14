@@ -23,27 +23,23 @@ public abstract class SingleScheduler {
         pList = new ArrayList<>();
     }
 
-    //进行调度后执行进程
-    public String execute(){
-        //调度进程
-        schedule();
-        StringBuilder result = new StringBuilder();
-        //若调度后无进程执行则CPU空闲
-        if(nowProcess == null){
-            return "execute: 空闲";
-        }
-        else{
-            result.append("execute: " + nowProcess.getId());
-        }
-        //CPU内有进程则执行一个时间单位，若执行完则销毁进程
-        if(nowProcess.getRuntime()>0){
-            nowProcess.execute();
+    //进行调度后返回当前进程
+    public synchronized MyProcess getNowProcess(){
+        if(nowProcess != null){
             if(nowProcess.getRuntime() == 0){
-                result.append("  process out");
+                System.out.println("Process out!");
                 nowProcess = null;
             }
         }
-        return result.toString();
+        //调度进程
+        schedule();
+        //若调度后无进程执行则CPU空闲
+        if(nowProcess == null){
+            return null;
+        }
+        else{
+            return nowProcess;
+        }
     };
 
     /**
@@ -54,7 +50,10 @@ public abstract class SingleScheduler {
      * @author Ayase
      * @date 20:28
      */
-    public void addP(MyProcess p){
+    public synchronized void addP(MyProcess p){
+        if(p == null){
+            return;
+        }
         pList.add(p);
     }
 
@@ -68,18 +67,18 @@ public abstract class SingleScheduler {
      */
     abstract void schedule();
 
-    /**
-     * @MethodName isEnd
-     * @Description TODO 是否已经没有进程可以调度
-     * @Param []
-     * @Return boolean
-     * @author Ayase
-     * @date 20:27
-     */
-    public boolean isEnd() {
-        if(pList.isEmpty() && nowProcess == null) {
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * @MethodName isEnd
+//     * @Description TODO 是否已经没有进程可以调度
+//     * @Param []
+//     * @Return boolean
+//     * @author Ayase
+//     * @date 20:27
+//     */
+//    public boolean isEnd() {
+//        if(pList.isEmpty() && nowProcess == null) {
+//            return true;
+//        }
+//        return false;
+//    }
 }

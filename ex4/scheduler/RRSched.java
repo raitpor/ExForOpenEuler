@@ -18,6 +18,7 @@ public class RRSched extends SingleScheduler {
 
         if(nowProcess != null){
             if(count == TIME_SLICE){
+                System.out.println("Time slice end.");
                 //若队列内没有进程则没有需要调度的进程，CPU空闲
                 if(!pList.isEmpty()){
                     pList.add(nowProcess);
