@@ -23,8 +23,16 @@ public abstract class SingleScheduler {
         pList = new ArrayList<>();
     }
 
-    //进行调度后返回当前进程
-    public synchronized MyProcess getNowProcess(){
+    /***********************************************************
+     * @MethodName getNowProcess
+     * @Description TODO 进行调度后返回当前进程
+     * @Param []
+     * @Return common.MyProcess
+     * @author Ayase
+     * @date  10:51
+     *********************************************************/
+    public synchronized MyProcess getNextP(){
+        //当前进程不为空时检查当前进程是否执行完，若结束则清除
         if(nowProcess != null){
             if(nowProcess.getRuntime() == 0){
                 System.out.println("Process out!");
@@ -42,14 +50,14 @@ public abstract class SingleScheduler {
         }
     };
 
-    /**
+    /***********************************************************
      * @MethodName addP
      * @Description TODO 将指定进程添加到进程列表中
      * @Param [p]
      * @Return void
      * @author Ayase
-     * @date 20:28
-     */
+     * @date  10:52
+     *********************************************************/
     public synchronized void addP(MyProcess p){
         if(p == null){
             return;
@@ -57,28 +65,13 @@ public abstract class SingleScheduler {
         pList.add(p);
     }
 
-    /**
+    /***********************************************************
      * @MethodName schedule
      * @Description TODO 调度抽象方法，具体由子类实现
      * @Param []
      * @Return void
      * @author Ayase
-     * @date 20:26
-     */
+     * @date 10:52
+     *********************************************************/
     abstract void schedule();
-
-//    /**
-//     * @MethodName isEnd
-//     * @Description TODO 是否已经没有进程可以调度
-//     * @Param []
-//     * @Return boolean
-//     * @author Ayase
-//     * @date 20:27
-//     */
-//    public boolean isEnd() {
-//        if(pList.isEmpty() && nowProcess == null) {
-//            return true;
-//        }
-//        return false;
-//    }
 }

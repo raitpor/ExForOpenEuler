@@ -11,6 +11,15 @@ public class RRSched extends SingleScheduler {
      */
     private final static int TIME_SLICE = 5;
     private static int count = -1;
+
+    /***********************************************************
+     * @MethodName schedule
+     * @Description TODO 使用RR算法进行进程调度
+     * @Param []
+     * @Return void
+     * @author Ayase
+     * @date  10:58
+     *********************************************************/
     @Override
     void schedule() {
         //计时器加一
