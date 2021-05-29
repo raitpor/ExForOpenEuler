@@ -106,7 +106,6 @@ public class QSpinLock {
                 list.remove(0);
                 if(lock.getPending() == 0){
                     pool.execute(new MyProcess());
-//                    Thread.sleep(1000);
                 }
                 else{
                     MyProcess newP = new MyProcess();
@@ -121,7 +120,6 @@ public class QSpinLock {
                 System.out.println("出队:" + wait.peek().id);
                 pool.execute(wait.poll());
                 lock.setTail(wait.size());
-//                Thread.sleep(1000);
             }
 
             //结束判定,该代码段会放入实验给出代码
