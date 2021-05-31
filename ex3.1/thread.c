@@ -1,7 +1,7 @@
 //gcc threadid.c -o a.out -pthread
 //pthread是linux下的线程库，用了多线程就要链接这个库，这时候要在编译选项上增加-pthread
-#include "apue.h"
-#include "apueerror.h"
+// #include "apue.h"
+// #include "apueerror.h"
 #include <pthread.h>
 #include <unistd.h>
 
